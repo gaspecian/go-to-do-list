@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gaspecian/go-to-do-list/config"
 	"github.com/gaspecian/go-to-do-list/controller"
 	"github.com/gaspecian/go-to-do-list/middleware"
 	"github.com/gorilla/mux"
@@ -19,7 +20,7 @@ func main() {
 	router.HandleFunc("/", controller.InfoHandler)
 
 	httpServer := &http.Server{
-		Addr:           ":8080",
+		Addr:           config.LoadEnv().HttpServer.Addr,
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
