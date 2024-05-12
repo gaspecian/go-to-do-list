@@ -1,28 +1,14 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
 	"net/http"
 	"time"
 
-	"github.com/gaspecia/go-to-do-list/middleware"
+	"github.com/gaspecian/go-to-do-list/controller"
+	"github.com/gaspecian/go-to-do-list/middleware"
 	"github.com/gorilla/mux"
 )
-
-type Info struct {
-	Name    string `json:"name"`
-	Version string `json:"version"`
-}
-
-func InfoHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	response := Info{
-		Name:    "to-do-api",
-		Version: "1.0.0",
-	}
-	json.NewEncoder(w).Encode(response)
-}
 
 func main() {
 	router := mux.NewRouter()
@@ -30,7 +16,7 @@ func main() {
 		middleware.LogginMiddleware(log.Default()),
 	)
 
-	router.HandleFunc("/", InfoHandler)
+	router.HandleFunc("/", controller.InfoHandler)
 
 	httpServer := &http.Server{
 		Addr:           ":8080",
