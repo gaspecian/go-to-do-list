@@ -1,6 +1,10 @@
 package config
 
-import "os"
+import (
+	"os"
+
+	"github.com/joho/godotenv"
+)
 
 type HttpServer struct {
 	Addr string `json:"addr"`
@@ -25,6 +29,8 @@ func getEnv(keyValue string, defaultValue string) string {
 }
 
 func LoadEnv() Env {
+	godotenv.Load()
+
 	httpServer := HttpServer{
 		Addr: getEnv("HTTP_ADDR", ":8080"),
 	}
