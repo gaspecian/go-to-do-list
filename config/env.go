@@ -16,9 +16,18 @@ type Application struct {
 }
 
 type Env struct {
-	HttpServer  HttpServer  `json:"httpServer"`
-	Application Application `json:"application"`
-	Environment string      `json:"environment"`
+	HttpServer   HttpServer   `json:"httpServer"`
+	Application  Application  `json:"application"`
+	Environment  string       `json:"environment"`
+	DbConnection DbConnection `json:"dbConnection"`
+}
+
+type DbConnection struct {
+	User     string `json:"user"`
+	Password string `json:"password"`
+	Host     string `json:"host"`
+	Database string `json:"database"`
+	Port     string `json:"port"`
 }
 
 func getEnv(keyValue string, defaultValue string) string {
@@ -40,10 +49,18 @@ func LoadEnv() Env {
 		Version: getEnv("APP_VERSION", "1.0.0-local"),
 	}
 
+	dbConnection := DbConnection{
+		User:     getEnv("DB_USER", "user"),
+		Password: getEnv("DB_PASSWORD", "password"),
+		Host:     getEnv("DB_HOST", "localhost"),
+		Port:     getEnv("DB_PORT", "5432"),
+	}
+
 	env := Env{
-		HttpServer:  httpServer,
-		Application: application,
-		Environment: getEnv("ENV", "local"),
+		HttpServer:   httpServer,
+		Application:  application,
+		Environment:  getEnv("ENV", "local"),
+		DbConnection: dbConnection,
 	}
 
 	return env
